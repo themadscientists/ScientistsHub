@@ -19,6 +19,7 @@ local WibiPit = {
         Attack = replStorage:WaitForChild('Remotes'):FindFirstChild('Attack'),
         Rebirth = replStorage:WaitForChild("Remotes"):WaitForChild("Rebirth"),
         BuyAbility = replStorage:WaitForChild("Remotes"):WaitForChild("BuyAbility"),
+        ClaimQuest = replStorage:WaitForChild("Remotes"):WaitForChild("ClaimQuest"),
         EquipAbility = replStorage:WaitForChild("Remotes"):WaitForChild("EquipAbility"),
         TriggerAbility = replStorage:WaitForChild("Remotes"):WaitForChild("TriggerAbility"),
     },
@@ -228,5 +229,16 @@ runService:BindToRenderStep('ARebirth', 9999, function()
 
     if players.LocalPlayer.hiddenstats.Level.Value >= maxLevelNeeded then
         WibiPit.Remotes.Rebirth:FireServer();
+    end
+end)
+
+local InfGold = false; Utility:NewToggle('Infinite Gold', 'gives you an infinite amount of gold', function(value: boolean)
+    InfGold = value
+
+    if value then
+        repeat
+            task.wait()
+            WibiPit.Remotes.ClaimQuest:FireServer()
+        until not InfGold
     end
 end)

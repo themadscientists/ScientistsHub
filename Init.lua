@@ -12,6 +12,22 @@ cloneref = cloneref or function(obj: Instance)
     return obj;
 end
 
+local loadByBuild = function(name: string)
+    if shared.Developer then
+        if isfile('Scientist Hub/'..name) then
+            return loadfile('Scientist Hub/'..name)()
+        else
+            warn('Failed to load ' .. name .. ' (DOESNT EXIST)!')
+        end
+    else
+        return loadstring(game:HttpGet('https://raw.githubusercontent.com/themadscientists/ScientistsHub/refs/heads/main/'..name))()
+    end
+end
+
+if shared.Developer then
+    warn('Developer Mode Active, may be buggy!')
+end
+
 local players = cloneref(game:GetService('Players'))
 
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua'))();
@@ -61,13 +77,13 @@ shared.Entity = {
     end,
 }
 
-local Games = loadfile('Scientist Hub/Games.lua')()
+local Games = loadByBuild('Games.lua')
 
-loadfile('Scientist Hub/Games/Universal.lua')()
+loadByBuild('Games/Universal.lua')
 for index, value in Games do
     for _, value2 in value do
         if game.PlaceId == value2 then
-            loadfile('Scientist Hub/Games/'..index..'.lua')()
+            loadByBuild('Games/'..index..'.lua')
             break
         end
     end
