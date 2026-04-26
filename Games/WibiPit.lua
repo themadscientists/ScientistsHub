@@ -269,7 +269,7 @@ local Disabler = false; Utility:NewToggle('Disabler', 'disables the flight check
         repeat
             task.wait()
 
-            if timeInAir > 0.7 and Entity.getRoot().AssemblyLinearVelocity.Y > 0 then
+            if timeInAir > 0.6 and Entity.getRoot().AssemblyLinearVelocity.Y > 0 then
                 shared.OverrideYVelo = true
                 local oldVelo = Entity.getRoot().AssemblyLinearVelocity.Y
                 local oldPos = Entity.getRoot().CFrame.Y
