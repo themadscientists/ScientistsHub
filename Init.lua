@@ -1,3 +1,8 @@
+--[[
+    Script Developed by themadscientists
+    Gui Library: Kavo by xHeptc
+]]
+
 if shared.Gui then
     shared.Gui = nil;
     shared.Entity = nil;

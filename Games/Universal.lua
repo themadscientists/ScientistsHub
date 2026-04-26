@@ -1,3 +1,8 @@
+--[[
+    Game: Universal (all games)
+    Developed by: themadscientists
+]]
+
 local Gui = shared.Gui;
 local Entity = shared.Entity;
 

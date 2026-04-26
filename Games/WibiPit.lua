@@ -1,3 +1,8 @@
+--[[
+    Game: https://www.roblox.com/games/119265221596002/Sword-Fighting-Pit
+    Developed by: themadscientists
+]]
+
 local Gui = shared.Gui;
 local Entity = shared.Entity;
 
