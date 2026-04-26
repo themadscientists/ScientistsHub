@@ -8,4 +8,7 @@
 
 loadstring:
 ```lua
-loadstring(game:HttpGet('https://raw.githubusercontent.com/themadscientists/ScientistsHub/refs/heads/main/Init.lua'))()```
+loadstring(game:HttpGet('https://raw.githubusercontent.com/themadscientists/ScientistsHub/refs/heads/main/Init.lua'))()
+```
+
+Join the [Discord](https://discord.gg/SXWn94mkBz)!
