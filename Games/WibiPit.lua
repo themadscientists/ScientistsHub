@@ -13,6 +13,7 @@ end
 local players = cloneref(game:GetService('Players'))
 local runService = cloneref(game:GetService('RunService'))
 local replStorage = cloneref(game:GetService('ReplicatedStorage'))
+local userInputService = cloneref(game:GetService('UserInputService'))
 
 local WibiPit = {
     Remotes = {
@@ -240,5 +241,54 @@ local InfGold = false; Utility:NewToggle('Infinite Gold', 'gives you an infinite
             task.wait()
             WibiPit.Remotes.ClaimQuest:FireServer()
         until not InfGold
+    end
+end)
+
+local timeInAir = 0
+task.spawn(function()
+    local lastGrounded = tick()
+    repeat
+        task.wait()
+        timeInAir = (tick() - lastGrounded)
+
+        if not Entity.getAlive(players.LocalPlayer.Character) then
+            lastGrounded = tick()
+            continue
+        end
+
+        if Entity.getChar():FindFirstChild('Humanoid') and Entity.getChar().Humanoid.FloorMaterial ~= Enum.Material.Air then
+            lastGrounded = tick()
+        end
+    until false
+end)
+
+local Disabler = false; Utility:NewToggle('Disabler', 'disables the flight checks', function(value: boolean)
+    Disabler = value;
+
+    if value then
+        repeat
+            task.wait()
+
+            if timeInAir > 0.7 and Entity.getRoot().AssemblyLinearVelocity.Y > 0 then
+                shared.OverrideYVelo = true
+                local oldVelo = Entity.getRoot().AssemblyLinearVelocity.Y
+                local oldPos = Entity.getRoot().CFrame.Y
+
+                if userInputService:IsKeyDown('Space') then
+                    oldPos += timeInAir
+                elseif userInputService:IsKeyDown('LeftShift') then
+                    oldPos -= timeInAir
+                end
+
+                timeInAir = -0.1
+                Entity.getRoot().AssemblyLinearVelocity = Vector3.new(Entity.getRoot().AssemblyLinearVelocity.X, -6, Entity.getRoot().AssemblyLinearVelocity.Z)
+                task.wait(0.1)
+                Entity.getRoot().AssemblyLinearVelocity = Vector3.new(Entity.getRoot().AssemblyLinearVelocity.X, oldVelo, Entity.getRoot().AssemblyLinearVelocity.Z)
+                Entity.getRoot().CFrame += Vector3.new(0, oldPos - Entity.getRoot().CFrame.Y, 0)
+                task.delay(0.1, function()
+                    shared.OverrideYVelo = false
+                end)
+            end
+        until not Disabler
     end
 end)

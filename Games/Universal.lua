@@ -35,6 +35,8 @@ runService:BindToRenderStep('Speed', 99999, function(dt: number)
     Entity.getRoot().CFrame += (Entity.getChar().Humanoid.MoveDirection * SpeedValue * dt);
 end)
 
+shared.OverrideYVelo = false
+
 local Fly = false; Movement:NewKeybind('Fly', 'Allows you to move in the air freely.', Enum.KeyCode.R, function()
     Fly = not Fly;
 end)
@@ -45,6 +47,10 @@ runService:BindToRenderStep('Fly', 99999, function(dt: number)
     end
 
     if not Entity.getAlive() then
+        return
+    end
+
+    if shared.OverrideYVelo then
         return
     end
 
